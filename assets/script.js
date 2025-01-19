@@ -18,21 +18,6 @@ function getComputerChoice() {
     return compuerChoice;
 }
 
-function getHumanChoice() {
-    let humanChoice = "";
-    let choices = ["rock", "paper", "scissors"];
-    
-    do {
-        userPrompt = prompt("Please choose Rock, Paper, or Scissors:");
-        if (userPrompt === null) {
-            break;
-        }
-        humanChoice = userPrompt.toLocaleLowerCase();
-    } while (!choices.includes(humanChoice));
-    
-    return humanChoice;
-}
-
 function playRound(humanChoice, compuerChoice) {
     if (humanChoice !== "") {
         console.log("You chose: " + humanChoice);
@@ -51,32 +36,39 @@ function playRound(humanChoice, compuerChoice) {
     }
 }
 
-function playGame() {
-    for (let i=1 ; i<6 ; i++) {
-        console.log("Round " + i + ":");
-        
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
+const body = document.body;
+body.style = "text-align: center; ";
 
-        if (humanSelection === null) {
-            console.log("Canceled.");
+const rockButton = document.createElement("button");
+rockButton.textContent = "Rock";
+rockButton.style = "margin: 10px;";
+
+const paperButton = document.createElement("button");
+paperButton.textContent = "Paper";
+paperButton.style = "margin: 10px;";
+
+const scissorsButton = document.createElement("button");
+scissorsButton.textContent = "Scissors";
+scissorsButton.style = "margin: 10px;";
+
+body.append(rockButton, paperButton, scissorsButton);
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        if(button.textContent === "Rock") {
+            const humanSelection = "rock";
+            const computerSelection = getComputerChoice();
+            playRound(humanSelection, computerSelection);
+        } else if (button.textContent === "Paper") {
+            const humanSelection = "paper";
+            const computerSelection = getComputerChoice();
+            playRound(humanSelection, computerSelection);
         } else {
+            const humanSelection = "scissors";
+            const computerSelection = getComputerChoice();
             playRound(humanSelection, computerSelection);
         }
-    }
-
-    console.log("Final score:");
-    console.log("You: " + humanScore);
-    console.log("Computer: " + computerScore);
-
-    if (humanScore === computerScore) {
-        console.log("It's a tie! You both are equally awesome... or equally bad, depending on how you look at it!");
-        
-    } else if (humanScore < computerScore) {
-        console.log("The computer wins... Looks like it’s time to unplug and reset its ego!");
-    } else {
-        console.log("Congratulations! You crushed the computer like a rock against scissors!");
-    } 
-}
-
-playGame();
+    });
+});
