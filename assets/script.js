@@ -20,19 +20,47 @@ function getComputerChoice() {
 
 function playRound(humanChoice, compuerChoice) {
     if (humanChoice !== "") {
-        console.log("You chose: " + humanChoice);
-        console.log("The computer chose: " + compuerChoice);
+        humanChoiceDiv.textContent = "You chose: " + humanChoice;
+        computerChoiceDiv.textContent = "The computer chose: " + compuerChoice;
 
         if (humanChoice === compuerChoice) {
-            console.log("Its a tie!");
+            roundResultDiv.textContent = "Its a tie!";
+            computerScore++;
+            humanScore++;
+            
+            humanScoreDiv.textContent = "You: " + humanScore;
+            computerScoreDiv.textContent = "Computer: " + computerScore;
         }
         else if((humanChoice === "rock" && compuerChoice === "paper") || (humanChoice === "scissors" && compuerChoice === "rock") || (humanChoice === "paper" && compuerChoice === "scissors")) {
-            console.log("You lose! " + compuerChoice + " beats " + humanChoice + ".");
+            roundResultDiv.textContent = "You lose! " + compuerChoice + " beats " + humanChoice + ".";
             computerScore++;
+
+            humanScoreDiv.textContent = "You: " + humanScore;
+            computerScoreDiv.textContent = "Computer: " + computerScore;
         } else {
-            console.log("You win! " + humanChoice + " beats " + compuerChoice + ".");
+            roundResultDiv.textContent = "You win! " + humanChoice + " beats " + compuerChoice + ".";
             humanScore++;
+
+            humanScoreDiv.textContent = "You: " + humanScore;
+            computerScoreDiv.textContent = "Computer: " + computerScore;
         }
+
+        if(humanScore === 5 || computerScore === 5) {
+            if (humanScore === computerScore) {
+                winnerDiv.textContent = "It's a tie! You both are equally awesome... or equally bad, depending on how you look at it!";
+                
+            } else if (humanScore < computerScore) {
+                winnerDiv.textContent = "The computer wins... Looks like it’s time to unplug and reset its ego!";
+            } else {
+                winnerDiv.textContent = "Congratulations! You crushed the computer like a rock against scissors!";
+            } 
+
+            humanScore = 0;
+            computerScore = 0;
+        }
+
+        resultsDiv.textContent = "";
+        resultsDiv.append(humanChoiceDiv, computerChoiceDiv, roundResultDiv, scoreDiv, winnerDiv);
     }
 }
 
@@ -51,7 +79,27 @@ const scissorsButton = document.createElement("button");
 scissorsButton.textContent = "Scissors";
 scissorsButton.style = "margin: 10px;";
 
-body.append(rockButton, paperButton, scissorsButton);
+const resultsDiv = document.createElement("div");
+
+body.append(rockButton, paperButton, scissorsButton, resultsDiv);
+
+const humanChoiceDiv = document.createElement("div");
+const computerChoiceDiv = document.createElement("div");
+
+const humanScoreDiv = document.createElement("div");
+humanScoreDiv.style = "font-weight: bold;";
+const computerScoreDiv = document.createElement("div");
+computerScoreDiv.style = "font-weight: bold;";
+
+const scoreDiv = document.createElement("div");
+scoreDiv.style = "margin-top: 30px;";
+scoreDiv.append(humanScoreDiv, computerScoreDiv);
+
+const roundResultDiv = document.createElement("div");
+roundResultDiv.style = "margin-top: 10px;";
+
+const winnerDiv = document.createElement("div");
+winnerDiv.style = "margin-top: 30px; font-weight: bold;";
 
 const buttons = document.querySelectorAll("button");
 
